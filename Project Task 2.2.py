@@ -76,15 +76,17 @@ def app():
   print("Available time slots:")
   i = 1
   for j in range(len(times)):
-      if available_slots[j] > 0:
-          print(f"{i}. {times[j]} ({available_slots[j]} available)")
-      i = i + 1
+    if available_slots[j] > 0:
+      print(f"{i}. {times[j]} ({available_slots[j]} available)")
+    i = i + 1
 
   choose4 = int(input("Enter your choose here! "))
 
   while choose4 < 1 or choose4 > 5 or available_slots[choose4 - 1] <= 0:
     print("Invalid input. Please try again.")
     choose4 = int(input("Enter your choose here! "))
+
+  selected_data[choose4 - 1] += 1
 
   print("Enter full name:")
   name = input()
@@ -148,24 +150,29 @@ while True:
       elif not any(char in "!@#$%^&*()_+-=[]{}|;':\",./<>?" for char in password):
         print("Password must contain at least one symbol (!@#$%^&*()_+-=[]{}|;':\",./<>?).")
       else:
-        users[username] = password
-        print("Sign up succesful")
-        y = 1
-      app()
-      x = 0
-      while x == 0:
-        print("Do you want to exit?")
-        print("1.Yes")
-        print("2.No")
-        choose3 = int(input())
-        if choose3 == 1:
-          x = 1
-        elif choose3 == 2:
-          x = 2
+        confirm_password = input("Confirm your password: ")
+        if password != confirm_password:
+          print("Passwords do not match. Please try again.")
         else:
-          print("Invalid input")
-      if x == 1:
-        break
+          print("Passwords match.")
+          users[username] = password
+          print("Sign up succesful")
+          y = 1
+          app()
+        x = 0
+        while x == 0:
+          print("Do you want to exit?")
+          print("1.Yes")
+          print("2.No")
+          choose3 = int(input())
+          if choose3 == 1:
+            x = 1
+          elif choose3 == 2:
+            x = 2
+          else:
+            print("Invalid input")
+        if x == 1:
+          break
   elif choose1 == 3:
     break
   else:
